@@ -164,7 +164,7 @@ var Job = function (data) {
                     tempRevision = vcsInfo.revision;
                 }
                 $vcsInfo.find('ul').append($('<li></li>').html(
-                    trimText(vcsInfo.revision + ' [' + vcsInfo.user[0].toUpperCase() + '] ' + vcsInfo.msg, _vcsInfoTrimLength)
+                    trimText(vcsInfo.revision + ' [' + vcsInfo.user.substr(0,2).toUpperCase() + '] ' + vcsInfo.msg, _vcsInfoTrimLength)
                 ));
             });
 
