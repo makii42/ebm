@@ -6,12 +6,10 @@ $(function () {
         render,
 
         _config = {
-            //apiUrl: '/api/json'
-            apiUrl:'example.json'
+            apiUrl: '/api/json'
         },
 
         $jobs = $('#jobs');
-
 
     init = function () {
 
@@ -56,12 +54,10 @@ $(function () {
             var $jobNode = job.getNode();
             $jobNode.height(jobHeight);
             $jobs.append($jobNode);
-            $jobNode.find('h2').fitText(2.8);
+            $jobNode.find('h2').fitText(1.8);
         });
 
-
     };
-
 
     init();
 
