@@ -11,33 +11,46 @@ var Job = function (data) {
         getBuildStateClassByColor,
         getBuildStateClassByState,
         getNode,
-        isBuildSuccess,
         trimText,
 
-        _apiUrl = data.url + 'lastBuild/api/json',
         _building,
         _jobTemplate = '<div><div class="jobname"><h2></h2></div><div class="jobinfo"></div><div>',
         _vcsInfoTemplate = '<div class="vcs-info"><ul></ul></div>',
-        _vcsInfoTrimLength = 70,
-        _vcsInfoFitTextKompressor = 6.8,
         _culpritTemplate = '<div class="culprits"><h3>The usual suspect(s):</h3><ul></ul></div>',
-        _culpritFitTextKompressor = 5.2,
-        _pollingTimerBuilding = 1000,
-        _pollingTimerNotBuilding = 5000,
         _nextBuildNumber = data.nextBuildNumber,
         _currentBuildNumber = (_nextBuildNumber-1),
         _lastCommitRevision = 0,
         _tempBuildNumber = 0,
-        _defaultTrimLength = 70,
+
+        _config = {
+            apiUrl: data.url + 'lastBuild/api/json',
+            defaultTrimLength: 70,
+            vcsInfoTrimLength: 70,
+            vcsInfoShortNameLength: 2,
+            vcsInfoMsgCount: 1,
+            vcsInfoFitTextKompressor: 6.8,
+            culpritFitTextKompressor: 5.2,
+            pollingTimerBuilding: 1000,
+            pollingTimerNotBuilding: 5000
+        },
 
         $job = $(_jobTemplate);
 
     getBuildStateClassByColor = function (color) {
-        return color === 'blue' ? 'success' : 'failed';
+        switch (color) {
+            case "blue": state = 'success';
+                break;
+            case "yellow": state = 'unstable';
+                break;
+            case "aborted_anime": state = 'aborted';
+                break;
+            default: state = 'failure'; 
+        }
+        return state;
     };
 
     getBuildStateClassByState = function (state) {
-        return state ? 'success' : 'failed';
+        return state === null ? 'aborted' : state.toLowerCase();
     };
 
     getNode = function () {
@@ -55,7 +68,7 @@ var Job = function (data) {
 
         var building = false;
         $.ajax({
-            url: _apiUrl,
+            url: _config.apiUrl,
             dataType: 'json',
             async: true,
             cache: true,
@@ -71,26 +84,26 @@ var Job = function (data) {
                 if (response.building) {
 
                     $job.toggleClass('building');
+                    $job.find('.culprits').remove();
 
                     displayBuildProgress(response);
 
                     _building = true;
-                    window.setTimeout(fetchRemainingBuildTime, _pollingTimerBuilding);
+                    window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerBuilding);
 
                 } else {
 
-                    var buildState = isBuildSuccess(response.result);
-                    if (!buildState) {
+                    if (response.result === 'FAILURE') {
                         displayCulprits(response.culprits);
                     } else {
                         $job.find('.culprits').remove();
                     }
                     displayVcsInformation(response);
 
-                    $job.removeClass('failed').removeClass('success').addClass(getBuildStateClassByState(buildState));
+                    $job.removeClass('failure').removeClass('success').removeClass('aborted').removeClass('unstable').addClass(getBuildStateClassByState(response.result));
 
                     _building = false;
-                    window.setTimeout(fetchRemainingBuildTime, _pollingTimerNotBuilding);
+                    window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerNotBuilding);
                 }
             }
         });
@@ -150,7 +163,7 @@ var Job = function (data) {
                 $culprits.find('ul').append($('<li></li>').text(culprit.fullName));
             });
             $job.find('.jobname').append($culprits);
-            $job.find('.culprits').fitText(_culpritFitTextKompressor);
+            $job.find('.culprits').fitText(_config.culpritFitTextKompressor);
         }
     };
 
@@ -159,12 +172,12 @@ var Job = function (data) {
         if (response.changeSet.items.length) {
             var $vcsInfo = $(_vcsInfoTemplate),
                 tempRevision = 0;
-            $.each(response.changeSet.items.slice(0, 2), function (index, vcsInfo) {
+            $.each(response.changeSet.items.slice(0, _config.vcsInfoMsgCount), function (index, vcsInfo) {
                 if (vcsInfo.revision > tempRevision) {
                     tempRevision = vcsInfo.revision;
                 }
                 $vcsInfo.find('ul').append($('<li></li>').html(
-                    trimText(vcsInfo.revision + ' [' + vcsInfo.user.substr(0,2).toUpperCase() + '] ' + vcsInfo.msg, _vcsInfoTrimLength)
+                    trimText(vcsInfo.revision + ' [' + vcsInfo.user.substr(0,_config.vcsInfoShortNameLength).toUpperCase() + '] ' + vcsInfo.msg, _config.vcsInfoTrimLength)
                 ));
             });
 
@@ -173,7 +186,7 @@ var Job = function (data) {
             if (_lastCommitRevision <= tempRevision) {
                 _lastCommitRevision = tempRevision;
                 $job.find('.jobinfo').html($vcsInfo);
-                $job.find('.vcs-info').fitText(_vcsInfoFitTextKompressor);
+                $job.find('.vcs-info').fitText(_config.vcsInfoFitTextKompressor);
             }
         } else {
             _tempBuildNumber = (_tempBuildNumber == 0) ? _currentBuildNumber : _tempBuildNumber;
@@ -193,12 +206,8 @@ var Job = function (data) {
     };
     
 
-    isBuildSuccess = function (result) {
-        return result === 'SUCCESS';
-    };
-
     trimText = function (text, length) {
-        var length = length || _defaultTrimLength;
+        var length = length || _config.defaultTrimLength;
         return (text.length > length) ? text.substr(0, length - 3) + '...' : text;
     };
 

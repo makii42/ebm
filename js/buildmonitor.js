@@ -37,7 +37,9 @@ $(function () {
 
             var jobs = [];
             $.each(response.jobs, function (index, job) {
-                jobs.push(new Job(job));
+                if (job.color !== 'disabled') {
+                    jobs.push(new Job(job));
+                }
             });
 
             render(jobs);
