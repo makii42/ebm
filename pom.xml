@@ -42,7 +42,7 @@
                 </configuration>
             </plugin>
 
-            <!--<plugin>
+            <plugin>
                 <groupId>com.github.timurstrekalov</groupId>
                 <artifactId>saga-maven-plugin</artifactId>
                 <version>1.3.0</version>
@@ -57,12 +57,11 @@
                 <configuration>
                     <baseDir>${project.basedir}</baseDir>
                     <includes>
-                        **/set1/*-TestRunner.html,
-                        **/set2/*-TestRunner.html
+                        **/*-TestRunner.html
                     </includes>
                     <outputDir>${project.build.directory}/coverage</outputDir>
                 </configuration>
-            </plugin>-->
+            </plugin>
 
         </plugins>
     </build>
