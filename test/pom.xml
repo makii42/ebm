@@ -9,45 +9,92 @@
     <version>1.0</version>
 
     <properties>
-        <baseDir>file:///${project.basedir}</baseDir>
+        <baseDir>${project.basedir}</baseDir>
     </properties>
 
     <build>
         <plugins>
 
             <plugin>
-                <groupId>com.github.timurstrekalov</groupId>
+                <groupId>com.github.searls</groupId>
                 <artifactId>jasmine-maven-plugin</artifactId>
-                <version>1.1.0</version>
-                <configuration>
-                    <jasmineTargetDir>target/general</jasmineTargetDir>
-                    <jsSrcDir>../js</jsSrcDir>
-                    <jsTestSrcDir>./spec</jsTestSrcDir>
-                    <preloadSources>
-
-                        <!-- stubs -->
-                        <!--source>${baseDir}/stubs/Stubs.js</source-->
-
-                        <!-- dependencies -->
-                        <source>${baseDir}/lib/jasmine/jasmine-jquery.js</source>
-                        <source>${baseDir}/target/general/src/lib/jquery-1.7.2.min.js</source>
-                        <source>${baseDir}/target/general/src/lib/jquery.fittext.js</source>
-
-                    </preloadSources>
-                </configuration>
+                <version>1.2.0.0</version>
+                <extensions>true</extensions>
                 <executions>
                     <execution>
-                        <id>general</id>
+                        <phase>test</phase>
                         <goals>
-                            <goal>generateManualRunner</goal>
-                            <goal>resources</goal>
-                            <goal>testResources</goal>
                             <goal>test</goal>
                         </goals>
                     </execution>
                 </executions>
-
+                <configuration>
+                    <jsSrcDir>${baseDir}/../js</jsSrcDir>
+                    <jsTestSrcDir>${baseDir}/spec</jsTestSrcDir>
+                    <preloadSources>
+                        <source>${baseDir}/../js/lib/jquery-1.8.3.min.js</source>
+                    </preloadSources>
+                    <sourceExcludes>
+                        <source>**/*jquery-*.js</source>
+                    </sourceExcludes>
+                </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>com.github.timurstrekalov</groupId>
+                <artifactId>saga-maven-plugin</artifactId>
+                <version>1.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>coverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <baseDir>${project.basedir}</baseDir>
+                    <includes>
+                        **/set1/*-TestRunner.html,
+                        **/set2/*-TestRunner.html
+                    </includes>
+                    <outputDir>${project.build.directory}/coverage</outputDir>
+                </configuration>
+            </plugin>
+
+            <!--<plugin>-->
+                <!--<groupId>com.github.timurstrekalov</groupId>-->
+                <!--<artifactId>jasmine-maven-plugin</artifactId>-->
+                <!--<version>1.1.0</version>-->
+                <!--<configuration>-->
+                    <!--<jasmineTargetDir>target/general</jasmineTargetDir>-->
+                    <!--<jsSrcDir>../js</jsSrcDir>-->
+                    <!--<jsTestSrcDir>./spec</jsTestSrcDir>-->
+                    <!--<preloadSources>-->
+
+                        <!--&lt;!&ndash; stubs &ndash;&gt;-->
+                        <!--&lt;!&ndash;source>${baseDir}/stubs/Stubs.js</source&ndash;&gt;-->
+
+                        <!--&lt;!&ndash; dependencies &ndash;&gt;-->
+                        <!--<source>${baseDir}/lib/jasmine/jasmine-jquery.js</source>-->
+                        <!--<source>${baseDir}/target/general/src/lib/jquery-1.7.2.min.js</source>-->
+                        <!--<source>${baseDir}/target/general/src/lib/jquery.fittext.js</source>-->
+
+                    <!--</preloadSources>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>general</id>-->
+                        <!--<goals>-->
+                            <!--<goal>generateManualRunner</goal>-->
+                            <!--<goal>resources</goal>-->
+                            <!--<goal>testResources</goal>-->
+                            <!--<goal>test</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+
+            <!--</plugin>-->
 
         </plugins>
     </build>
