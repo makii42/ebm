@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>JS Tests</name>
-    <groupId>jsTests</groupId>
-    <artifactId>jsTests</artifactId>
-    <version>1.0</version>
+    <name>EasyBuildMonitor</name>
+    <groupId>ebm</groupId>
+    <artifactId>ebm</artifactId>
+    <version>0.1</version>
 
     <properties>
         <baseDir>${project.basedir}</baseDir>
@@ -29,18 +29,20 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jsSrcDir>${baseDir}/../js</jsSrcDir>
-                    <jsTestSrcDir>${baseDir}/spec</jsTestSrcDir>
+                    <jsSrcDir>${baseDir}/js</jsSrcDir>
+                    <jsTestSrcDir>${baseDir}/test/spec</jsTestSrcDir>
                     <preloadSources>
-                        <source>${baseDir}/../js/lib/jquery-1.8.3.min.js</source>
+                        <source>${baseDir}/js/lib/jquery-1.8.3.min.js</source>
                     </preloadSources>
+                    <scriptLoaderPath>lib/require.js</scriptLoaderPath>
+                    <specRunnerTemplate>REQUIRE_JS</specRunnerTemplate>
                     <sourceExcludes>
                         <source>**/*jquery-*.js</source>
                     </sourceExcludes>
                 </configuration>
             </plugin>
 
-            <plugin>
+            <!--<plugin>
                 <groupId>com.github.timurstrekalov</groupId>
                 <artifactId>saga-maven-plugin</artifactId>
                 <version>1.3.0</version>
@@ -60,41 +62,7 @@
                     </includes>
                     <outputDir>${project.build.directory}/coverage</outputDir>
                 </configuration>
-            </plugin>
-
-            <!--<plugin>-->
-                <!--<groupId>com.github.timurstrekalov</groupId>-->
-                <!--<artifactId>jasmine-maven-plugin</artifactId>-->
-                <!--<version>1.1.0</version>-->
-                <!--<configuration>-->
-                    <!--<jasmineTargetDir>target/general</jasmineTargetDir>-->
-                    <!--<jsSrcDir>../js</jsSrcDir>-->
-                    <!--<jsTestSrcDir>./spec</jsTestSrcDir>-->
-                    <!--<preloadSources>-->
-
-                        <!--&lt;!&ndash; stubs &ndash;&gt;-->
-                        <!--&lt;!&ndash;source>${baseDir}/stubs/Stubs.js</source&ndash;&gt;-->
-
-                        <!--&lt;!&ndash; dependencies &ndash;&gt;-->
-                        <!--<source>${baseDir}/lib/jasmine/jasmine-jquery.js</source>-->
-                        <!--<source>${baseDir}/target/general/src/lib/jquery-1.7.2.min.js</source>-->
-                        <!--<source>${baseDir}/target/general/src/lib/jquery.fittext.js</source>-->
-
-                    <!--</preloadSources>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>general</id>-->
-                        <!--<goals>-->
-                            <!--<goal>generateManualRunner</goal>-->
-                            <!--<goal>resources</goal>-->
-                            <!--<goal>testResources</goal>-->
-                            <!--<goal>test</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-
-            <!--</plugin>-->
+            </plugin>-->
 
         </plugins>
     </build>
