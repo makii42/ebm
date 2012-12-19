@@ -1,4 +1,4 @@
-describe('Config', function (subject)
+define(['js/Config.js'], function ()
 {
     describe('get', function ()
     {
@@ -9,19 +9,19 @@ describe('Config', function (subject)
                 },
                 config = new Config(data);
 
-            assertSame('aSimpleValue', config.get('key'));
+            expect(config.get('key')).toBe('aSimpleValue');
         });
 
         it('should return nested data', function ()
         {
             var data = {
                     server: {
-                        host: 'hostUr'
+                        host: 'hostUrl'
                     }
                 },
                 config = new Config(data);
 
-            assertSame('hostUr', config.get('server.host'));
-        })
+            expect(config.get('server.host')).toBe('hostUrl');
+        });
     });
 });
