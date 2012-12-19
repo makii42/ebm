@@ -15,7 +15,9 @@ var Config = function (data)
     };
 
 
-    getNestedValue = function (key, dataSubset)
+    getNestedValue = function (
+        key,
+        dataSubset)
     {
         var parts = key.split('.'),
             firstPart = parts[0];
@@ -29,7 +31,9 @@ var Config = function (data)
     };
 
 
-    getSimpleValue = function (key, data)
+    getSimpleValue = function (
+        key,
+        data)
     {
         return data[key];
     };

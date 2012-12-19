@@ -1,4 +1,5 @@
-var Job = function (data) {
+var Job = function (data)
+{
 
     var calculateBuildPercentage,
         calculateRemainingBuildTime,
@@ -18,42 +19,50 @@ var Job = function (data) {
         _vcsInfoTemplate = '<div class="vcs-info"><ul></ul></div>',
         _culpritTemplate = '<div class="culprits"><h3>The usual suspect(s):</h3><ul></ul></div>',
         _nextBuildNumber = data.nextBuildNumber,
-        _currentBuildNumber = (_nextBuildNumber-1),
+        _currentBuildNumber = (_nextBuildNumber - 1),
         _lastCommitRevision = 0,
         _tempBuildNumber = 0,
 
         _config = {
-            apiUrl: data.url + 'lastBuild/api/json',
-            defaultTrimLength: 70,
-            vcsInfoTrimLength: 70,
-            vcsInfoShortNameLength: 2,
-            vcsInfoMsgCount: 1,
+            apiUrl:                   data.url + 'lastBuild/api/json',
+            defaultTrimLength:        70,
+            vcsInfoTrimLength:        70,
+            vcsInfoShortNameLength:   2,
+            vcsInfoMsgCount:          1,
             vcsInfoFitTextKompressor: 6.8,
             culpritFitTextKompressor: 5.2,
-            pollingTimerBuilding: 1000,
-            pollingTimerNotBuilding: 5000
+            pollingTimerBuilding:     1000,
+            pollingTimerNotBuilding:  5000
         },
 
         $job = $(_jobTemplate);
 
-    getBuildStateClassByColor = function (color) {
-        switch (color) {
-            case "blue": state = 'success';
+    getBuildStateClassByColor = function (color)
+    {
+        switch (color)
+        {
+            case "blue":
+                state = 'success';
                 break;
-            case "yellow": state = 'unstable';
+            case "yellow":
+                state = 'unstable';
                 break;
-            case "aborted_anime": state = 'aborted';
+            case "aborted_anime":
+                state = 'aborted';
                 break;
-            default: state = 'failure'; 
+            default:
+                state = 'failure';
         }
         return state;
     };
 
-    getBuildStateClassByState = function (state) {
+    getBuildStateClassByState = function (state)
+    {
         return state === null ? 'aborted' : state.toLowerCase();
     };
 
-    getNode = function () {
+    getNode = function ()
+    {
 
         $job.addClass('job')
             .addClass(getBuildStateClassByColor(data.color));
@@ -64,24 +73,28 @@ var Job = function (data) {
         return $job;
     };
 
-    fetchRemainingBuildTime = function () {
+    fetchRemainingBuildTime = function ()
+    {
 
         var building = false;
         $.ajax({
-            url: _config.apiUrl,
-            dataType: 'json',
-            async: true,
-            cache: true,
+            url:        _config.apiUrl,
+            dataType:   'json',
+            async:      true,
+            cache:      true,
             ifModified: true,
-            success: function (response) {
+            success:    function (response)
+            {
 
                 $job.find('.build-progress').remove();
-                if (_building === false) {
+                if (_building === false)
+                {
                     $job.removeClass('building');
                     _building = false;
                 }
 
-                if (response.building) {
+                if (response.building)
+                {
 
                     $job.toggleClass('building');
                     $job.find('.culprits').remove();
@@ -91,11 +104,14 @@ var Job = function (data) {
                     _building = true;
                     window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerBuilding);
 
-                } else {
+                } else
+                {
 
-                    if (response.result === 'FAILURE') {
+                    if (response.result === 'FAILURE')
+                    {
                         displayCulprits(response.culprits);
-                    } else {
+                    } else
+                    {
                         $job.find('.culprits').remove();
                     }
                     displayVcsInformation(response);
@@ -109,21 +125,29 @@ var Job = function (data) {
         });
     };
 
-    calculateRemainingBuildTime = function (estimatedDuration, runtime) {
+    calculateRemainingBuildTime = function (
+        estimatedDuration,
+        runtime)
+    {
         var remainingBuildTime = estimatedDuration - runtime;
         return (remainingBuildTime > 0) ? remainingBuildTime : 0;
     };
 
-    calculateBuildPercentage = function (estimatedDuration, runtime) {
+    calculateBuildPercentage = function (
+        estimatedDuration,
+        runtime)
+    {
         var percentage = Math.floor(runtime / estimatedDuration * 100);
         return (percentage < 100) ? percentage : 100;
     };
 
-    calculateRuntime = function (buildStart) {
+    calculateRuntime = function (buildStart)
+    {
         return new Date().getTime() - buildStart;
     };
 
-    formatSeconds = function (remainingMilliseconds) {
+    formatSeconds = function (remainingMilliseconds)
+    {
         var remainingSeconds = Math.floor(remainingMilliseconds / 1000),
             hours = Math.floor(remainingSeconds / 3600),
             minutes = Math.floor(remainingSeconds % 3600 / 60),
@@ -132,17 +156,20 @@ var Job = function (data) {
                 seconds + 's'
             ];
 
-        if (minutes) {
+        if (minutes)
+        {
             output.push(minutes + 'm');
         }
-        if (hours) {
+        if (hours)
+        {
             output.push(hours + 'h');
         }
 
         return output.reverse().join('');
     };
 
-    displayBuildProgress = function (response) {
+    displayBuildProgress = function (response)
+    {
         var runtime = calculateRuntime(response.timestamp),
             remainingMilliseconds = calculateRemainingBuildTime(response.estimatedDuration, runtime),
             $duration = $('<span></span>').addClass('build-progress');
@@ -153,13 +180,18 @@ var Job = function (data) {
         $job.find('.jobname h2').append($duration);
     };
 
-    displayCulprits = function (culprits) {
+    displayCulprits = function (culprits)
+    {
 
         $job.find('.culprits').remove();
 
-        if (culprits.length) {
+        if (culprits.length)
+        {
             var $culprits = $(_culpritTemplate);
-            $.each(culprits, function (index, culprit) {
+            $.each(culprits, function (
+                index,
+                culprit)
+            {
                 $culprits.find('ul').append($('<li></li>').text(culprit.fullName));
             });
             $job.find('.jobname').append($culprits);
@@ -167,51 +199,63 @@ var Job = function (data) {
         }
     };
 
-    displayVcsInformation = function (response) {
+    displayVcsInformation = function (response)
+    {
 
-        if (response.changeSet.items.length) {
+        if (response.changeSet.items.length)
+        {
             var $vcsInfo = $(_vcsInfoTemplate),
                 tempRevision = 0;
-            $.each(response.changeSet.items.slice(0, _config.vcsInfoMsgCount), function (index, vcsInfo) {
-                if (vcsInfo.revision > tempRevision) {
+            $.each(response.changeSet.items.slice(0, _config.vcsInfoMsgCount), function (
+                index,
+                vcsInfo)
+            {
+                if (vcsInfo.revision > tempRevision)
+                {
                     tempRevision = vcsInfo.revision;
                 }
                 $vcsInfo.find('ul').append($('<li></li>').html(
-                    trimText(vcsInfo.revision + ' [' + vcsInfo.user.substr(0,_config.vcsInfoShortNameLength).toUpperCase() + '] ' + vcsInfo.msg, _config.vcsInfoTrimLength)
+                    trimText(vcsInfo.revision + ' [' + vcsInfo.user.substr(0, _config.vcsInfoShortNameLength).toUpperCase() + '] ' + vcsInfo.msg, _config.vcsInfoTrimLength)
                 ));
             });
 
             _tempBuildNumber = 0;
 
-            if (_lastCommitRevision <= tempRevision) {
+            if (_lastCommitRevision <= tempRevision)
+            {
                 _lastCommitRevision = tempRevision;
                 $job.find('.jobinfo').html($vcsInfo);
                 $job.find('.vcs-info').fitText(_config.vcsInfoFitTextKompressor);
             }
-        } else {
+        } else
+        {
             _tempBuildNumber = (_tempBuildNumber == 0) ? _currentBuildNumber : _tempBuildNumber;
             _tempBuildNumber--;
-            
+
             $.ajax({
-                url: data.url + _tempBuildNumber + '/api/json',
-                dataType: 'json',
-                async: true,
-                cache: true,
+                url:        data.url + _tempBuildNumber + '/api/json',
+                dataType:   'json',
+                async:      true,
+                cache:      true,
                 ifModified: true,
-                success: function (response) {
+                success:    function (response)
+                {
                     displayVcsInformation(response);
                 }
             });
         }
     };
-    
 
-    trimText = function (text, length) {
+
+    trimText = function (
+        text,
+        length)
+    {
         var length = length || _config.defaultTrimLength;
         return (text.length > length) ? text.substr(0, length - 3) + '...' : text;
     };
 
     return {
-        getNode:getNode
+        getNode: getNode
     };
 };
