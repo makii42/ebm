@@ -1,20 +1,18 @@
 $(function ()
 {
-
     var changeJobHeights,
         getJobs,
         init,
         render,
 
-        _config = {
-            apiUrl: '/api/json'
-        },
+        $jobs = $('#jobs'),
 
-        $jobs = $('#jobs');
+        _config = new Config(configData),
+        _jobs = [];
+
 
     init = function ()
     {
-
         $.ajaxSetup({
             cache: false
         });
@@ -22,38 +20,37 @@ $(function ()
         $(window).bind('resize', changeJobHeights);
         changeJobHeights();
 
-        // fetch data
         getJobs();
     };
+
 
     changeJobHeights = function ()
     {
         $jobs.height($(window).height() - parseInt($('body').css('margin-top'), 10) * 2);
     };
 
+
     getJobs = function ()
     {
+        var jobHosts = _config.get('jobs', []),
+            jobs;
 
-        $.getJSON(_config.apiUrl, {
-            pretty: true,
-            depth:  1
-        }, function (response)
+        for (var hostLabel in jobHosts)
         {
-
-            var jobs = [];
-            $.each(response.jobs, function (
-                index,
-                job)
+            jobs = jobHosts[hostLabel];
+            for (var i = 0; i < jobs.length; i++)
             {
-                if (job.color !== 'disabled')
-                {
-                    jobs.push(new Job(job));
-                }
-            });
+                _jobs.push(new Job({
+                    name: jobs[i],
+                    hostLabel: hostLabel,
+                    config: _config.get('hosts.' + hostLabel)
+                }));
+            }
+        }
 
-            render(jobs);
-        });
+        render(_jobs);
     };
+
 
     render = function (jobs)
     {
@@ -62,8 +59,7 @@ $(function ()
             jobHeight = Math.floor(jobsHeight / jobs.length) - 2;
 
         $.each(jobs, function (
-            index,
-            job)
+            index, job)
         {
 
             var $jobNode = job.getNode();
@@ -75,5 +71,4 @@ $(function ()
     };
 
     init();
-
 });

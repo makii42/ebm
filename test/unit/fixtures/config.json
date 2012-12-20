@@ -1,0 +1,12 @@
+{
+    "variable": "value",
+    "enabled": false,
+    "list": [
+        {
+            "label": "Yeah"
+        },
+        {
+            "label": "Weird"
+        }
+    ]
+}

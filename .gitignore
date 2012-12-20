@@ -3,4 +3,4 @@
 *.iws
 target
 .idea
-js/config/config.js
+config/config.json

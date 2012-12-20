@@ -24,12 +24,14 @@ define(['js/Config.js'], function ()
             expect(config.get('server.host')).toBe('hostUrl');
         });
 
-//        it('should return it`s default value for non-existing keys', function ()
-//        {
-//            var config = new Config({});
-//
-//            expect(config.get('iDoNotExist')).toBe(null);
-//        });
+        it('should return it`s default value for non-existing keys', function ()
+        {
+            var config = new Config({}),
+                defaultValue = {};
+
+            expect(config.get('iDoNotExist')).toBe(null);
+            expect(config.get('iDoNotExistEither', defaultValue)).toBe(defaultValue);
+        });
 
         it('should return it`s default value for invalid keys', function ()
         {
@@ -57,6 +59,25 @@ define(['js/Config.js'], function ()
             tryCatch(null);
             tryCatch(undefined);
             tryCatch('....');
+        });
+
+
+        it('should access arrays', function ()
+        {
+            var data = {
+                    aList: [
+                        {
+                            name: 'entry #1'
+                        },
+                        {
+                            name: 'entry #2'
+                        }
+                    ]
+                },
+                config = new Config(data);
+
+            expect(config.get('aList.0.name')).toBe('entry #1');
+            expect(config.get('aList.1.name')).toBe('entry #2');
         });
     });
 });
