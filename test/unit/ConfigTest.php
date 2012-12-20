@@ -63,15 +63,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
 
-//    public function testGet
-
 
     /**
      * @covers Config::toJSON
      */
     public function testToJsonReturnsJsonEncodedData()
     {
-        $json = preg_replace('/ {1,}/', '', str_replace("\n", '', file_get_contents($this->fixtureFile)));
+        $json = file_get_contents($this->fixtureFile);
+        $json = str_replace("\n", '', $json);
+        $json = preg_replace('/ {1,}/', '', $json);
+        $json = preg_replace('/"password":"\w+"/', '"password":""', $json);
         $this->assertSame($json, $this->config->toJSON());
     }
 }

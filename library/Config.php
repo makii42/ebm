@@ -67,6 +67,12 @@ class Config
      */
     public function toJSON()
     {
-        return json_encode($this->data);
+        $data = clone $this->data;
+        foreach ($data->hosts as $label => $host)
+        {
+            $data->hosts->$label->password = '';
+        }
+
+        return json_encode($data);
     }
 }

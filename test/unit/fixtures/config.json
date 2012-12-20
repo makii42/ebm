@@ -1,6 +1,16 @@
 {
     "variable": "value",
     "enabled": false,
+    "hosts": {
+        "hostLabel": {
+            "name": "foo",
+            "password": "secret"
+        },
+        "anotherHost": {
+            "name": "bar",
+            "password": "anotherSecret"
+        }
+    },
     "list": [
         {
             "label": "Yeah"
