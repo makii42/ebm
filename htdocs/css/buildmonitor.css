@@ -115,6 +115,23 @@ body {
 	transition: background-color 500ms linear;
 }
 
+.job.unreachable {
+    background-color: #444;
+    -moz-transition: background-color 500ms linear;
+    -ms-transition: background-color 500ms linear;
+    -o-transition: background-color 500ms linear;
+    -webkit-transition: background-color 500ms linear;
+    transition: background-color 500ms linear;
+    background-image: url('../img/skull.svg');
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: 6%;
+}
+
+    .job.unreachable h2 {
+        color: #999;
+    }
+
 .job .vcs-info {
 	position: relative;
 	margin: 3px;

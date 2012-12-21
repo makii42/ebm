@@ -21,7 +21,7 @@ var Job = function (data)
         _jobTemplate = '<div><div class="jobname"><h2></h2></div><div class="jobinfo"></div><div>',
         _vcsInfoTemplate = '<div class="vcs-info"><ul></ul></div>',
         _culpritTemplate = '<div class="culprits"><h3>The usual suspect(s):</h3><ul></ul></div>',
-        // _nextBuildNumber = data.nextBuildNumber,
+    // _nextBuildNumber = data.nextBuildNumber,
         _nextBuildNumber = 2, // wtf is this all for?
         _currentBuildNumber = _nextBuildNumber - 1,
         _lastCommitRevision = 0,
@@ -79,12 +79,7 @@ var Job = function (data)
 
     fetchRemainingBuildTime = function ()
     {
-
         var building = false;
-        if (('proxy.php?' + _config.jobBaseUrl).match('/.*NaN.*/'))
-        {
-            debugger;
-        }
         $.ajax({
             url:        'proxy.php?' + _config.jobBaseUrl + '/lastBuild/api/json',
             dataType:   'json',
@@ -93,6 +88,15 @@ var Job = function (data)
             ifModified: true,
             success:    function (response)
             {
+                if (response === null)
+                {
+                    $job.addClass('unreachable');
+                }
+                else
+                {
+                    $job.removeClass('unreachable');
+                }
+
                 _currentBuildNumber = response.number;
 
                 $job.find('h2').text(response.fullDisplayName);
@@ -113,7 +117,7 @@ var Job = function (data)
                     displayBuildProgress(response);
 
                     _building = true;
-                    window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerBuilding);
+                    //window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerBuilding);
 
                 } else
                 {
@@ -130,7 +134,7 @@ var Job = function (data)
                     $job.removeClass('failure').removeClass('success').removeClass('aborted').removeClass('unstable').addClass(getBuildStateClassByState(response.result));
 
                     _building = false;
-                    window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerNotBuilding);
+                    //window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerNotBuilding);
                 }
             }
         });
