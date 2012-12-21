@@ -21,6 +21,16 @@ $(function ()
         changeJobHeights();
 
         getJobs();
+
+        window.setTimeout(pageRefresh, _config.get('pageRefresh'));
+    };
+
+
+    pageRefresh = function ()
+    {
+        console.log('refresh');
+        window.location.reload();
+        window.setTimeout(pageRefresh, _config.get('pageRefresh'));
     };
 
 

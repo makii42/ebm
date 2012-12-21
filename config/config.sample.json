@@ -1,12 +1,20 @@
 {
-    "hosts": [
-        {
-            "id":       "sample",
+    "hosts": {
+        "hostIdentifierString": {
             "label":    "Sample Jenkins",
             "url":      "https://builds.apache.org/api/json",
             "port":     80,
             "user":     "",
             "password": ""
         }
-    ]
+    },
+
+    "jobs": {
+        "hostIdentifierString": [
+            "Lucene.Net-Trunk-All-Nightly",
+            "ZooKeeper-trunk"
+        ]
+    },
+
+    "pageRefresh": 300000
 }
