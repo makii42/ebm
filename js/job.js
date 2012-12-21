@@ -220,13 +220,14 @@ var Job = function (data)
             $.each(response.changeSet.items.slice(0, _config.vcsInfoMsgCount), function (
                 index, vcsInfo)
             {
-                if (vcsInfo.revision > tempRevision)
-                {
-                    tempRevision = vcsInfo.revision;
-                }
-                $vcsInfo.find('ul').append($('<li></li>').html(
-                    trimText(vcsInfo.revision + ' [' + vcsInfo.user.substr(0, _config.vcsInfoShortNameLength).toUpperCase() + '] ' + vcsInfo.msg, _config.vcsInfoTrimLength)
-                ));
+//                if (vcsInfo.revision > tempRevision)
+//                {
+//                    tempRevision = vcsInfo.revision;
+//                }
+//                $vcsInfo.find('ul').append($('<li></li>').html(
+//                    trimText(vcsInfo.revision + ' [' + vcsInfo.user.substr(0, _config.vcsInfoShortNameLength).toUpperCase() + '] ' + vcsInfo.msg, _config.vcsInfoTrimLength)
+//                ));
+                $vcsInfo.find('ul').append($('<li></li>').html(vcsInfo.msg, _config.vcsInfoTrimLength));
             });
 
             _tempBuildNumber = 0;
