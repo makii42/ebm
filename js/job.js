@@ -117,7 +117,7 @@ var Job = function (data)
                     displayBuildProgress(response);
 
                     _building = true;
-                    //window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerBuilding);
+                    window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerBuilding);
 
                 } else
                 {
@@ -134,7 +134,7 @@ var Job = function (data)
                     $job.removeClass('failure').removeClass('success').removeClass('aborted').removeClass('unstable').addClass(getBuildStateClassByState(response.result));
 
                     _building = false;
-                    //window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerNotBuilding);
+                    window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerNotBuilding);
                 }
             }
         });
