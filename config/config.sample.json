@@ -2,7 +2,7 @@
     "hosts": {
         "hostIdentifierString": {
             "label":    "Sample Jenkins",
-            "url":      "https://builds.apache.org/api/json",
+            "url":      "https://builds.apache.org/",
             "port":     80,
             "user":     "",
             "password": ""
