@@ -45,83 +45,38 @@ body {
 
 .job.failure {
 	background-color: #ff2500;
-	-moz-transition: background-color 500ms linear;
-	-ms-transition: background-color 500ms linear;
-	-o-transition: background-color 500ms linear;
-	-webkit-transition: background-color 500ms linear;
-	transition: background-color 500ms linear;
 }
 
 .job.failure.building {
-	background-color: #c21e00;
-	-moz-transition: background-color 500ms linear;
-	-ms-transition: background-color 500ms linear;
-	-o-transition: background-color 500ms linear;
-	-webkit-transition: background-color 500ms linear;
-	transition: background-color 500ms linear;
+	background-color: #4466ff;
 }
 
 .job.success {
 	background-color: #00ac00;
-	-moz-transition: background-color 500ms linear;
-	-ms-transition: background-color 500ms linear;
-	-o-transition: background-color 500ms linear;
-	-webkit-transition: background-color 500ms linear;
-	transition: background-color 500ms linear;
 }
 
 .job.unstable {
 	background-color: #ff9a00;
-	-moz-transition: background-color 500ms linear;
-	-ms-transition: background-color 500ms linear;
-	-o-transition: background-color 500ms linear;
-	-webkit-transition: background-color 500ms linear;
-	transition: background-color 500ms linear;
 }
 
 .job.unstable.building {
-	background-color: #ffd700;
-	-moz-transition: background-color 500ms linear;
-	-ms-transition: background-color 500ms linear;
-	-o-transition: background-color 500ms linear;
-	-webkit-transition: background-color 500ms linear;
-	transition: background-color 500ms linear;
+	background-color: #4466ff;
 }
 
 .job.success.building {
-	background-color: #008b00;
-	-moz-transition: background-color 500ms linear;
-	-ms-transition: background-color 500ms linear;
-	-o-transition: background-color 500ms linear;
-	-webkit-transition: background-color 500ms linear;
-	transition: background-color 500ms linear;
+	background-color: #4466ff;
 }
 
 .job.aborted {
 	background-color: #708090;
-	-moz-transition: background-color 500ms linear;
-	-ms-transition: background-color 500ms linear;
-	-o-transition: background-color 500ms linear;
-	-webkit-transition: background-color 500ms linear;
-	transition: background-color 500ms linear;
 }
 
 .job.aborted.building {
-	background-color: #b0c4de;
-	-moz-transition: background-color 500ms linear;
-	-ms-transition: background-color 500ms linear;
-	-o-transition: background-color 500ms linear;
-	-webkit-transition: background-color 500ms linear;
-	transition: background-color 500ms linear;
+	background-color: #4466ff;
 }
 
 .job.unreachable {
     background-color: #444;
-    -moz-transition: background-color 500ms linear;
-    -ms-transition: background-color 500ms linear;
-    -o-transition: background-color 500ms linear;
-    -webkit-transition: background-color 500ms linear;
-    transition: background-color 500ms linear;
     background-image: url('../img/skull.svg');
     background-position: center right;
     background-repeat: no-repeat;
