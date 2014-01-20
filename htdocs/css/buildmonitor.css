@@ -48,7 +48,7 @@ body {
 }
 
 .job.failure.building {
-	background-color: #BE45FF;
+	background-color: #0000FF;
 }
 
 .job.success {
@@ -60,11 +60,11 @@ body {
 }
 
 .job.unstable.building {
-	background-color: #BE45FF;
+	background-color: #0000FF;
 }
 
 .job.success.building {
-	background-color: #BE45FF;
+	background-color: #0000FF;
 }
 
 .job.aborted {
@@ -72,7 +72,7 @@ body {
 }
 
 .job.aborted.building {
-	background-color: #BE45FF;
+	background-color: #0000FF;
 }
 
 .job.unreachable {
