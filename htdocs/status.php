@@ -4,8 +4,10 @@
  * also allows a more grained auth configuration.
  */
 
+use Guzzle\GuzzleServiceProvider;
 use Igorw\Silex\ConfigServiceProvider;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '../vendor/autoload.php';
 
@@ -13,7 +15,7 @@ $app = new Silex\Application();
 $env = getenv('APP_ENV') ? : 'prod';
 
 $app->register(new ConfigServiceProvider(__DIR__ . "/../config/$env.json"));
-
+$app->register(new GuzzleServiceProvider(), array('guzzle.services' => '/path/to/services.json'));
 
 $app->get(
     '/status/{hostLabel}/{jobName}',
@@ -30,8 +32,17 @@ $app->get(
             $app->abort(404, 'No jobs for this host, dude!');
         }
         $jobsByHost = $jobs[$hostLabel];
+        if(!in_array($jobName, $jobsByHost)) {
+            $app->abort(404, 'That job is not real, dude!');
+        }
 
-        return new JsonResponse($jobsByHost);
+        $client = new \Guzzle\Http\Client($host['url']);
+        $request = $client->createRequest('GET', '/job/'.$jobName.'/api/json?pretty=true');
+        $request->getQuery()->set('pretty', 'true');
+        var_dump($request->getUrl());
+        $response = $client->send($request);
+
+        return new Response($response->getBody(true), $response->getStatusCode());
     }
 );
 
