@@ -1,7 +1,7 @@
 ebm
 ===
 
-A lightweight, easy to use build monitor for Jenkins.
+A lightweight, easy to use build monitor for jenkins
 
 
 Requirements

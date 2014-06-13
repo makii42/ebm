@@ -111,7 +111,7 @@ var Job = function (data)
                 if (response.building)
                 {
 
-                    $job.toggleClass('building');
+                    $job.addClass('building');
                     $job.find('.culprits').remove();
 
                     displayBuildProgress(response);
@@ -131,7 +131,7 @@ var Job = function (data)
                     }
                     displayVcsInformation(response);
 
-                    $job.removeClass('failure').removeClass('success').removeClass('aborted').removeClass('unstable').addClass(getBuildStateClassByState(response.result));
+                    $job.removeClass('building').removeClass('failure').removeClass('success').removeClass('aborted').removeClass('unstable').addClass(getBuildStateClassByState(response.result));
 
                     _building = false;
                     window.setTimeout(fetchRemainingBuildTime, _config.pollingTimerNotBuilding);
