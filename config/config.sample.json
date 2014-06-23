@@ -1,16 +1,25 @@
 {
+    "monitor-name": "Will be placed in HTML title",
     "hosts": {
         "hostIdentifierString": {
             "label":    "Sample Jenkins",
             "url":      "https://builds.apache.org/",
+            "basePath": "/optional-if-its-just-slash-jenkins-slash/",
             "port":     80,
-            "user":     "",
-            "password": ""
+            "auth": {
+                "user":     "auth-section",
+                "password": "may-be-omitted-if-not-necessary"
+            }
+        },
+        "apache": {
+            "label":    "Sample Jenkins",
+            "url":      "https://builds.apache.org/",
+            "port":     80
         }
     },
 
     "jobs": {
-        "hostIdentifierString": [
+        "apache": [
             "Lucene.Net-Trunk-All-Nightly",
             "ZooKeeper-trunk"
         ]
