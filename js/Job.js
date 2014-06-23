@@ -28,15 +28,15 @@ var Job = function (data)
         _tempBuildNumber = 0,
 
         _config = {
-            jobBaseUrl:               'hostLabel=' + data.hostLabel + '&url=/job/' + data.name,
+            jobBaseUrl:               data.hostLabel + '/' + data.name,
             defaultTrimLength:        70,
             vcsInfoTrimLength:        70,
             vcsInfoShortNameLength:   2,
             vcsInfoMsgCount:          1,
             vcsInfoFitTextKompressor: 6.8,
             culpritFitTextKompressor: 5.2,
-            pollingTimerBuilding:     1000,
-            pollingTimerNotBuilding:  5000
+            pollingTimerBuilding:     2000,
+            pollingTimerNotBuilding:  15000
         },
 
         $job = $(_jobTemplate);
@@ -81,7 +81,7 @@ var Job = function (data)
     {
         var building = false;
         $.ajax({
-            url:        'proxy.php?' + _config.jobBaseUrl + '/lastBuild/api/json',
+            url:        'status/' + _config.jobBaseUrl,
             dataType:   'json',
             async:      true,
             cache:      true,
