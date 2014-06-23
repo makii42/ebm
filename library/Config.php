@@ -65,7 +65,7 @@ class Config
     /**
      * @return string
      */
-    public function toJSON()
+    public function  toJSON()
     {
         $data = clone $this->data;
         foreach ($data->hosts as $label => $host)
