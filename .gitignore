@@ -8,3 +8,4 @@ config/dev.json
 /vendor/
 build
 .project 
+dev.log
