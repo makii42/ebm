@@ -22,7 +22,7 @@ $(function ()
 
         getJobs();
 
-        window.setTimeout(pageRefresh, _config.get('pageRefresh'));
+        window.setTimeout(pageRefresh, _config.get('pageRefresh', 300000));
     };
 
 
@@ -30,7 +30,7 @@ $(function ()
     {
         console.log('refresh');
         window.location.reload();
-        window.setTimeout(pageRefresh, _config.get('pageRefresh'));
+        window.setTimeout(pageRefresh, _config.get('pageRefresh', 300000));
     };
 
 
