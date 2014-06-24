@@ -18,10 +18,16 @@ $env = getenv('APP_ENV') ? : 'prod';
 
 $app->register(new ConfigServiceProvider(__DIR__ . "/../config/$env.json"));
 $app->register(new GuzzleServiceProvider());
+
+$logFile = __DIR__ . "/../$env.log";
+if(isset($app['logFile']))
+{
+    $logFile = $app['logFile'];
+}
 $app->register(
         new Silex\Provider\MonologServiceProvider(),
         array(
-                'monolog.logfile'       => __DIR__ . "/../$env.log",
+                'monolog.logfile'       => $logFile,
                 'monolog.handler.debug' => true
         ));
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__ . '/../templates'));
