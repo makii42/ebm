@@ -126,6 +126,7 @@ $app->error(
                     break;
                 default:
                     $response['message'] = 'We are sorry, but something went terribly wrong.';
+                    $response['details'] = $e->getMessage();
             }
 
             $jsonResponse = new JsonResponse($response);
