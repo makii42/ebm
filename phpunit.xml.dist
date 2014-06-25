@@ -12,8 +12,8 @@
          bootstrap="vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="Billsafe Worker Component Test Suite">
-            <directory>./test/silex/</directory>
+        <testsuite name="Easy Build monitor">
+            <directory>./test/php/</directory>
         </testsuite>
     </testsuites>
 

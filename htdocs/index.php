@@ -4,6 +4,7 @@
  * also allows a more grained auth configuration.
  */
 
+use Ebm\ScriptAppender;
 use Guzzle\GuzzleServiceProvider;
 use Guzzle\Http\Client;
 use Igorw\Silex\ConfigServiceProvider;
@@ -19,6 +20,8 @@ $env = getenv('APP_ENV') ? : 'prod';
 $app->register(new ConfigServiceProvider(__DIR__ . "/../config/$env.json"));
 $app->register(new GuzzleServiceProvider());
 
+// default logfile to parent dir for dev
+// overwrite in config
 $logFile = __DIR__ . "/../$env.log";
 if(isset($app['logFile']))
 {
@@ -50,24 +53,22 @@ $app->get(
         {
             $app['monolog']->debug('looking for script files...');
 
-            $scriptContent = array();
-            $finder        = new Finder();
-            $finder->files()->name('*js')->in(__DIR__ . '/../js');
+            $libFinder = new Finder();
+            $libFinder->files()->name('*js')->in(__DIR__ . '/../js/lib');
+            $jsFinder = new Finder();
+            $jsFinder->files()->name('*js')->in(__DIR__ . '/../js')->depth(0);
 
-            /** @var \SplFileInfo $file */
-            foreach ($finder as $file)
-            {
-                $app['monolog']->debug('loading file ' . $file->getRealPath());
-                $scriptContent[] = $file->getContents();
-            }
-            // config
-            $scriptContent[] = "var configData = $.parseJSON('" . json_encode(
+            $scriptAppender = new ScriptAppender($app['monolog'], array($libFinder, $jsFinder));
+
+            $scriptBlob = $scriptAppender->getBlob() .
+                    "var configData = $.parseJSON('" . json_encode(
                             array(
                                     'monitor-name' => $app['monitor-name'],
                                     'jobs'         => $app['jobs'],
                                     'pageRefresh'  => $app['pageRefresh']
                             )) . "');";
-            $scriptBlob = implode(PHP_EOL . PHP_EOL, $scriptContent);
+
+
             $app['monolog']->debug('delivering blob: ' . mb_strlen($scriptBlob) . ' bytes');
             return new Response($scriptBlob, 200, array('Content-Type' => 'application/javascript'));
         });

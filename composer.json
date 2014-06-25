@@ -24,6 +24,5 @@
     },
     "autoload": {
         "psr-0": { "Ebm\\": "src/" }
-    },
-    "target-dir": "Ebm"
+    }
 }
