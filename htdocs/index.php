@@ -97,14 +97,14 @@ $app->get(
 
             $client   = new Client($host['url']);
             $basePath = isset($host['basePath']) ? $host['basePath'] : '/jenkins';
-            $request  = $client->createRequest(
-                    'GET',
-                    $basePath . '/job/' . $jobName . '/lastBuild/api/json?pretty=true',
-                    ['verify' => false]);
+            $request  = $client->createRequest('GET', $basePath . '/job/' . $jobName . '/lastBuild/api/json?pretty=true');
             if (isset($host['auth']))
             {
                 $request->setAuth($host['auth']['userName'], $host['auth']['password']);
             }
+            $request->getCurlOptions()->set(CURLOPT_SSL_VERIFYHOST, false);
+            $request->getCurlOptions()->set(CURLOPT_SSL_VERIFYPEER, false);
+
             $request->getQuery()->set('pretty', 'true');
             $response = $client->send($request);
 
