@@ -23,7 +23,7 @@ $app->register(new GuzzleServiceProvider());
 // default logfile to parent dir for dev
 // overwrite in config
 $logFile = __DIR__ . "/../$env.log";
-if(isset($app['logFile']))
+if (isset($app['logFile']))
 {
     $logFile = $app['logFile'];
 }
@@ -68,7 +68,6 @@ $app->get(
                                     'pageRefresh'  => $app['pageRefresh']
                             )) . "');";
 
-
             $app['monolog']->debug('delivering blob: ' . mb_strlen($scriptBlob) . ' bytes');
             return new Response($scriptBlob, 200, array('Content-Type' => 'application/javascript'));
         });
@@ -98,7 +97,10 @@ $app->get(
 
             $client   = new Client($host['url']);
             $basePath = isset($host['basePath']) ? $host['basePath'] : '/jenkins';
-            $request  = $client->createRequest('GET', $basePath . '/job/' . $jobName . '/lastBuild/api/json?pretty=true');
+            $request  = $client->createRequest(
+                    'GET',
+                    $basePath . '/job/' . $jobName . '/lastBuild/api/json?pretty=true',
+                    ['verify' => false]);
             if (isset($host['auth']))
             {
                 $request->setAuth($host['auth']['userName'], $host['auth']['password']);
