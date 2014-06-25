@@ -68,7 +68,7 @@ $app->get(
                                     'pageRefresh'  => $app['pageRefresh']
                             )) . "');";
             $scriptBlob = implode($scriptContent);
-            $app['monolog']->debug('delivering blob: ' . mb_strlen($scriptBlob) . ' bytes')
+            $app['monolog']->debug('delivering blob: ' . mb_strlen($scriptBlob) . ' bytes');
             return new Response($scriptBlob, 200, array('Content-Type' => 'application/javascript'));
         });
 
