@@ -28,6 +28,8 @@ class ScriptAppender
 
     public function getBlob()
     {
+        $this->logger->debug('loading script files...');
+
         $fileContents = array();
 
         /** @var Finder $finder */

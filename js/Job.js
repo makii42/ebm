@@ -28,6 +28,7 @@ var Job = function (data)
         _tempBuildNumber = 0,
 
         _config = {
+            screen:                   data.screen,
             jobBaseUrl:               data.hostLabel + '/' + data.name,
             defaultTrimLength:        70,
             vcsInfoTrimLength:        70,
@@ -81,7 +82,7 @@ var Job = function (data)
     {
         var building = false;
         $.ajax({
-            url:        'status/' + _config.jobBaseUrl,
+            url:        _config.screen + '/status/' + _config.jobBaseUrl,
             dataType:   'json',
             async:      true,
             cache:      true,

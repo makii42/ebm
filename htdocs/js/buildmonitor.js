@@ -51,6 +51,7 @@ $(function ()
             for (var i = 0; i < jobs.length; i++)
             {
                 _jobs.push(new Job({
+                    screen: _config.get('screen', []),
                     name: jobs[i],
                     hostLabel: hostLabel,
                     config: _config.get('hosts.' + hostLabel)

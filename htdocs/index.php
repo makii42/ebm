@@ -10,19 +10,19 @@ use Guzzle\Http\Client;
 use Igorw\Silex\ConfigServiceProvider;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '../vendor/autoload.php';
 
 $app = new Silex\Application();
-$env = getenv('APP_ENV') ? : 'prod';
 
-$app->register(new ConfigServiceProvider(__DIR__ . "/../config/$env.json"));
+$app->register(new ConfigServiceProvider(__DIR__ . "/../config/config.json"));
 $app->register(new GuzzleServiceProvider());
 
 // default logfile to parent dir for dev
 // overwrite in config
-$logFile = __DIR__ . "/../$env.log";
+$logFile = __DIR__ . "/../ebm.log";
 if (isset($app['logFile']))
 {
     $logFile = $app['logFile'];
@@ -34,6 +34,25 @@ $app->register(
                 'monolog.handler.debug' => true
         ));
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__ . '/../templates'));
+
+$app->before(
+        function (Request $request) use ($app)
+        {
+            $pathInfo = $request->getPathInfo();
+            if ('/' !== $pathInfo || !empty($pathInfo))
+            {
+                $pathElements = explode('/', $pathInfo);
+                $screenName   = $pathElements[1];
+                $configFile   = __DIR__ . '/../config/' . $screenName . '.json';
+                $app['monolog']->debug('testing config file ' . $configFile);
+
+                if (file_exists($configFile))
+                {
+                    $app->register(new ConfigServiceProvider($configFile));
+                    $app['monolog']->debug('loaded config file ' . $configFile);
+                }
+            }
+        });
 
 $app->get(
         '/',
@@ -48,11 +67,22 @@ $app->get(
         });
 
 $app->get(
-        '/js/scripts',
-        function () use ($app)
+        '/{screen}',
+        function ($screen) use ($app)
         {
-            $app['monolog']->debug('looking for script files...');
+            $monitorName = isset($app['monitor-name']) ? $app['monitor-name'] : "Easy Build Montior";
+            return $app['twig']->render(
+                    'index.twig',
+                    array(
+                            'monitorName' => $monitorName,
+                            'screen'      => $screen
+                    ));
+        });
 
+$app->get(
+        '/{screen}/js/scripts',
+        function ($screen) use ($app)
+        {
             $libFinder = new Finder();
             $libFinder->files()->name('*js')->in(__DIR__ . '/../js/lib')->sortByName();
             $jsFinder = new Finder();
@@ -63,6 +93,7 @@ $app->get(
             $scriptBlob = $scriptAppender->getBlob() .
                     "var configData = $.parseJSON('" . json_encode(
                             array(
+                                    'screen'       => $screen,
                                     'monitor-name' => $app['monitor-name'],
                                     'jobs'         => $app['jobs'],
                                     'pageRefresh'  => $app['pageRefresh']
@@ -73,8 +104,8 @@ $app->get(
         });
 
 $app->get(
-        '/status/{hostLabel}/{jobName}',
-        function ($hostLabel, $jobName) use ($app)
+        '/{screen}/status/{hostLabel}/{jobName}',
+        function ($screen, $hostLabel, $jobName) use ($app)
         {
 
             $hosts = $app['hosts'];
