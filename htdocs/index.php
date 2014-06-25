@@ -67,7 +67,7 @@ $app->get(
                                     'jobs'         => $app['jobs'],
                                     'pageRefresh'  => $app['pageRefresh']
                             )) . "');";
-            $scriptBlob = implode($scriptContent);
+            $scriptBlob = implode(PHP_EOL . PHP_EOL, $scriptContent);
             $app['monolog']->debug('delivering blob: ' . mb_strlen($scriptBlob) . ' bytes');
             return new Response($scriptBlob, 200, array('Content-Type' => 'application/javascript'));
         });
