@@ -54,7 +54,7 @@ $app->get(
             $app['monolog']->debug('looking for script files...');
 
             $libFinder = new Finder();
-            $libFinder->files()->name('*js')->in(__DIR__ . '/../js/lib');
+            $libFinder->files()->name('*js')->in(__DIR__ . '/../js/lib')->sortByName();
             $jsFinder = new Finder();
             $jsFinder->files()->name('*js')->in(__DIR__ . '/../js')->depth(0);
 
