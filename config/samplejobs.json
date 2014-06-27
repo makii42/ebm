@@ -1,0 +1,10 @@
+{
+    "monitor-name": "Apache Jobs",
+    "jobs": {
+        "apache": [
+            "Lucene.Net-Trunk-All-Nightly",
+            "ZooKeeper-trunk",
+            "ActiveMQ-Java8"
+        ]
+    }
+}

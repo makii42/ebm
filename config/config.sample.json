@@ -1,11 +1,12 @@
 {
     "monitor-name": "Will be placed in HTML title",
+    "logFile": "../dev.log",
+    "pageRefresh": 300000,
     "hosts": {
         "hostIdentifierString": {
             "label":    "Sample Jenkins",
             "url":      "https://builds.apache.org/",
             "basePath": "/optional-if-its-just-slash-jenkins-slash/",
-            "port":     80,
             "auth": {
                 "user":     "auth-section",
                 "password": "may-be-omitted-if-not-necessary"
@@ -17,15 +18,5 @@
             "basePath": "",
             "port":     80
         }
-    },
-
-    "jobs": {
-        "apache": [
-            "Lucene.Net-Trunk-All-Nightly",
-            "ZooKeeper-trunk",
-            "ActiveMQ-Java8"
-        ]
-    },
-
-    "pageRefresh": 300000
+    }
 }
