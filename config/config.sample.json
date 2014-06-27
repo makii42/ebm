@@ -14,6 +14,7 @@
         "apache": {
             "label":    "Sample Jenkins",
             "url":      "https://builds.apache.org/",
+            "basePath": "",
             "port":     80
         }
     },
