@@ -107,7 +107,6 @@ $app->get(
         '/{screen}/status/{hostLabel}/{jobName}',
         function ($screen, $hostLabel, $jobName) use ($app)
         {
-
             $hosts = $app['hosts'];
 
             if (!array_key_exists($hostLabel, $hosts))
@@ -127,8 +126,12 @@ $app->get(
             }
 
             $client   = new Client($host['url']);
+
             $basePath = isset($host['basePath']) ? $host['basePath'] : '/jenkins';
-            $request  = $client->createRequest('GET', $basePath . '/job/' . $jobName . '/lastBuild/api/json?pretty=true');
+            $path     = $basePath . '/job/' . $jobName . '/lastBuild/api/json?pretty=true';
+
+            $app['monolog']->debug('collecting job data resource: ' . $host['url'] . $path);
+            $request  = $client->createRequest('GET', $path);
             if (isset($host['auth']))
             {
                 $request->setAuth($host['auth']['userName'], $host['auth']['password']);
