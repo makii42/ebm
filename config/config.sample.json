@@ -22,7 +22,8 @@
     "jobs": {
         "apache": [
             "Lucene.Net-Trunk-All-Nightly",
-            "ZooKeeper-trunk"
+            "ZooKeeper-trunk",
+            "ActiveMQ-Java8"
         ]
     },
 
