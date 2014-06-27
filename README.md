@@ -17,9 +17,9 @@ How to set it up
 ================
 
 - Clone it
-- To install all dependencies, run this:```
-$ composer --install
-``` If you don't have composer installed, [Go, get it](https://getcomposer.org/download/)!
+- Before the build monitor will work, you need to install dependencies via:
+  ```$ composer --install```
+  If you don't have composer installed yet, [Go, get it](https://getcomposer.org/download/)!
 - Create `config/prod.json` to add your jenkins configuration
     - if you want to use multiple environments, just pass `APP_ENV` in into PHP environment
 - Set up apache with PHP to point to ```htdocs```
