@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="EasyBuildMonitor"/>
+    <title>Easy Build Monitor</title>
+    <link type="text/css" rel="stylesheet" href="css/joblist.css" />
+    <script src="/{{ screen }}/js/scripts"></script>
+    <script src="/js/buildmonitor.js"></script>
+
+</head>
+<body>
+
+<h1>Easy Build Monitor</h1>
+
+<h2>Choose your poison:</h2>
+<ul>
+    {% for monitor in monitors %}
+    <li><a href="/{{ monitor.slug }}" title="{{ monitor.slug }}">{{ monitor.slug }}</a></li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

@@ -58,11 +58,28 @@ $app->get(
         '/',
         function () use ($app)
         {
-            $monitorName = isset($app['monitor-name']) ? $app['monitor-name'] : "Easy Build Montior";
+            $monitorFinder = new Finder();
+            $monitorFinder
+                    ->in('../config')
+                    ->depth(0)
+                    ->files()
+                    ->name('*json')
+                    ->notName('config.json');
+
+            $monitors = array();
+
+            /** @var $file \Symfony\Component\Finder\SplFileInfo */
+            foreach ($monitorFinder as $file)
+            {
+                $monitors[] = array(
+                        'slug' => $file->getBasename('.json')
+                );
+            }
+
             return $app['twig']->render(
-                    'index.twig',
+                    'joblist.twig',
                     array(
-                            'monitorName' => $monitorName
+                            'monitors' => $monitors
                     ));
         });
 
@@ -125,13 +142,13 @@ $app->get(
                 $app->abort(404, 'That job is not real, dude!');
             }
 
-            $client   = new Client($host['url']);
+            $client = new Client($host['url']);
 
             $basePath = isset($host['basePath']) ? $host['basePath'] : '/jenkins';
             $path     = $basePath . '/job/' . $jobName . '/lastBuild/api/json?pretty=true';
 
             $app['monolog']->debug('collecting job data resource: ' . $host['url'] . $path);
-            $request  = $client->createRequest('GET', $path);
+            $request = $client->createRequest('GET', $path);
             if (isset($host['auth']))
             {
                 $request->setAuth($host['auth']['userName'], $host['auth']['password']);
