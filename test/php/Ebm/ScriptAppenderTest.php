@@ -59,7 +59,6 @@ class ScriptAppenderTest extends \PHPUnit_Framework_TestCase
     }
 
 
-
     public function testAppenderWorksWithMultipleFinders()
     {
         $separator = PHP_EOL . PHP_EOL . PHP_EOL;
