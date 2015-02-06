@@ -70,3 +70,17 @@ How to configure your Jobs
       (if deployed to `/`), or just put the path you use, e.g. `/ci/`.
 - _(You may cheat at `$EMB_ROOT/config/config.sample.json`)_.
 - CONGRATZ!!! YOU'RE DONE! You just created the build monitor http://yourserver.com/kewlbuildz
+
+
+Backlog
+=======
+
+Yes, this piece is pretty hacky. What needs to bedone:
+
+* Write more unit tests
+* Maybe Selenium Tests?
+* provide admin UI to
+    * Add connected Jenkins instances and configuration (auth, intervals, ...)
+    * Allocate Jobs on "screens"
+* Find better name for "screen"
+* ... a lot I have not thought about enough.
