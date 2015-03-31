@@ -29,6 +29,7 @@ class EbmServiceProvider implements ServiceProviderInterface
     {
         /*
          * Registers a before hook to load the right configuration, if any.
+         * This is considered a hack by me, and should be replaced soonish.
          */
         $app->before(
             function (Request $request) use ($app) {
