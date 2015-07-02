@@ -4,7 +4,7 @@
 target
 .idea
 config/config.json
-config/dev.json
+config/dev*.json
 /vendor/
 build
 .project 
