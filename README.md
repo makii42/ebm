@@ -72,6 +72,20 @@ How to configure your Jobs
 - CONGRATZ!!! YOU'RE DONE! You just created the build monitor http://yourserver.com/kewlbuildz
 
 
+How to test locally
+===================
+
+If you just wanna try it locally, hack up a configuration file as above, then start the php-built-in 
+server using 
+
+```
+php -S 127.0.0.1:3001 -t ./htdocs/
+```
+
+To check out ebm, go to [http://localhost:3001/](http://localhost:3001/) and select the "screen" you
+just created.
+
+
 Backlog
 =======
 
