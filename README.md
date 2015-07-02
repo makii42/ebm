@@ -79,7 +79,7 @@ If you just wanna try it locally, hack up a configuration file as above, then st
 server using 
 
 ```
-php -S 127.0.0.1:3001 -t ./htdocs/
+user@host ~/ebm/ $ php -S 127.0.0.1:3001 -t ./htdocs/
 ```
 
 To check out ebm, go to [http://localhost:3001/](http://localhost:3001/) and select the "screen" you
