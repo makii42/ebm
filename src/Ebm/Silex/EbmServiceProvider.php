@@ -37,14 +37,13 @@ class EbmServiceProvider implements ServiceProviderInterface
                 if ('/' !== $pathInfo || !empty($pathInfo)) {
                     $pathElements = explode('/', $pathInfo);
                     $screenName = $pathElements[1];
-                    $configFile = $_SERVER["DOCUMENT_ROOT"]
-                        . DIRECTORY_SEPARATOR . $app['monitorDir']
+                    $screenConfigFile = $app['monitorDir']
                         . DIRECTORY_SEPARATOR . $screenName . '.json';
-                    $app['monolog']->debug('testing config file ' . $configFile);
+                    $app['monolog']->debug('testing config file ' . $screenConfigFile);
 
-                    if (file_exists($configFile)) {
-                        $app->register(new ConfigServiceProvider($configFile));
-                        $app['monolog']->debug('loaded config file ' . $configFile);
+                    if (file_exists($screenConfigFile)) {
+                        $app->register(new ConfigServiceProvider($screenConfigFile));
+                        $app['monolog']->debug('loaded config file ' . $screenConfigFile);
                     }
                 }
             }
