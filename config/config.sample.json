@@ -1,5 +1,6 @@
 {
     "monitor-name": "Will be placed in HTML title",
+    "monitorDir": "../config",
     "logFile": "../dev.log",
     "pageRefresh": 300000,
     "hosts": {

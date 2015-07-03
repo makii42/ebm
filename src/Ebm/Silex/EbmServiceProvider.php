@@ -37,7 +37,9 @@ class EbmServiceProvider implements ServiceProviderInterface
                 if ('/' !== $pathInfo || !empty($pathInfo)) {
                     $pathElements = explode('/', $pathInfo);
                     $screenName = $pathElements[1];
-                    $configFile = $_SERVER["DOCUMENT_ROOT"] . '/../config/' . $screenName . '.json';
+                    $configFile = $_SERVER["DOCUMENT_ROOT"]
+                        . DIRECTORY_SEPARATOR . $app['monitorDir']
+                        . DIRECTORY_SEPARATOR . $screenName . '.json';
                     $app['monolog']->debug('testing config file ' . $configFile);
 
                     if (file_exists($configFile)) {
@@ -55,7 +57,7 @@ class EbmServiceProvider implements ServiceProviderInterface
             {
                 $monitorFinder = new Finder();
                 $monitorFinder
-                    ->in('../config')
+                    ->in($app['monitorDir'])
                     ->depth(0)
                     ->files()
                     ->name('*json')
