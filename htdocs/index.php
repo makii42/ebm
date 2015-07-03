@@ -14,7 +14,13 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . '../vendor/autoload.php';
 
 $app = new Silex\Application();
 
-$app->register(new ConfigServiceProvider(__DIR__ . "/../config/config.json"));
+$baseConfigFile = __DIR__ . "/../config/config.json";
+if(file_exists($baseConfigFile)) {
+    $app->register(new ConfigServiceProvider($baseConfigFile));
+} else {
+    echo "Please provide config file at " . $baseConfigFile;
+    die;
+}
 $app->register(new GuzzleServiceProvider());
 
 // default logfile to parent dir for dev
