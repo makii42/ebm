@@ -147,11 +147,19 @@ class EbmServiceProvider implements ServiceProviderInterface
                 $path     = $basePath . '/job/' . $jobName . '/lastBuild/api/json?pretty=true';
 
                 $app['monolog']->debug('collecting job data resource: ' . $host['url'] . $path);
-                $request = $client->createRequest('GET', $path);
+
+                $headers = array();
+                if (isset($host['headers']))
+                {
+                    $headers = $host['headers'];
+                }
+
+                $request = $client->createRequest('GET', $path, $headers);
                 if (isset($host['auth']))
                 {
                     $request->setAuth($host['auth']['userName'], $host['auth']['password']);
                 }
+
                 $request->getCurlOptions()->set(CURLOPT_SSL_VERIFYHOST, false);
                 $request->getCurlOptions()->set(CURLOPT_SSL_VERIFYPEER, false);
 
