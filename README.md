@@ -75,8 +75,8 @@ How to configure your Jobs
 How to test locally
 ===================
 
-If you just wanna try it locally, hack up a configuration file as above, then start the php-built-in 
-server using 
+If you just wanna try it locally, hack up a configuration file as above, then start the php-built-in
+server using
 
 ```
 user@host ~/ebm/ $ php -S 127.0.0.1:3001 -t ./htdocs/
@@ -85,6 +85,9 @@ user@host ~/ebm/ $ php -S 127.0.0.1:3001 -t ./htdocs/
 To check out ebm, go to [http://localhost:3001/](http://localhost:3001/) and select the "screen" you
 just created.
 
+When running on a Mac with [homebrew](http://brew.sh/), AND calling Jenkins instances via
+SSL/https, you might wanna make sure you did
+[this](https://github.com/Homebrew/homebrew-php/issues/1946#issuecomment-126404435)!
 
 Backlog
 =======
