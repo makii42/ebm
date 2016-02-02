@@ -9,3 +9,4 @@ config/dev*.json
 build
 .project 
 dev*.log
+npm-debug.log
